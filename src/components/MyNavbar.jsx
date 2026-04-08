@@ -13,6 +13,7 @@ export default function MyNavbar() {
             <Nav.Link as={Link} to="/articles">Articles</Nav.Link>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
             <Nav.Link as={Link} to="/resources">Resources</Nav.Link>
+            <Nav.Link as={Link} to="/books">Books</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
