@@ -7,6 +7,7 @@ export default function ContentUploadPage() {
     const chapterTitleRef = useRef();
     const chapterNumberRef = useRef();
     const textRef = useRef();
+    const passwordRef = useRef();
 
     function handleSubmit(e) {
         e?.preventDefault();
@@ -16,7 +17,8 @@ export default function ContentUploadPage() {
             author: authorRef.current.value,
             chapter_title: chapterTitleRef.current.value,
             chapter_num: parseInt(chapterNumberRef.current.value),
-            text: textRef.current.value
+            text: textRef.current.value,
+            password: passwordRef.current.value
             }
 
         const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -38,6 +40,7 @@ export default function ContentUploadPage() {
                 chapterTitleRef.current.value = '';
                 chapterNumberRef.current.value = '';
                 textRef.current.value = '';
+                passwordRef.current.value = '';
             } else {
                 alert("Submission failed. Please check all fields.");
             }
@@ -74,10 +77,17 @@ export default function ContentUploadPage() {
                     </Form.Group>
                 </Row>
                 <Form.Group>
+                    <Form.Control 
+                        ref={passwordRef} 
+                        type="password" 
+                        placeholder="Upload Password" 
+                        />
+                </Form.Group>
+                <Form.Group>
                     <Form.Label>Chapter Text</Form.Label>
                     <Form.Control ref={textRef} as="textarea" rows={10} placeholder='Enter Chapter Text' />
                 </Form.Group>
-                <Button>Submit</Button>
+                <Button type="submit">Submit</Button>
             </Form>
         </Container>
     );
