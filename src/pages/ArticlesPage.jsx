@@ -25,14 +25,35 @@ function SourceSelect({ filters, setFilters, uniqueSources}) {
   );
 }
 
+function CategorySelect({ filters, setFilters, category}) {  
+  return (
+    <Form.Select 
+      value={filters.category}
+      onChange={(e) => {
+        setFilters({...filters, category: e.target.value})}}
+      aria-label="Category select"
+    >
+      <option value="">All Categories</option>
+      {
+        category.map((cat) => (
+          <option key={cat} value={cat}>{cat}</option>
+        ))
+      }
+      {/* <option value="voa">Voice of America (VOA)</option>
+      <option value="china news">China News</option> */}
+    </Form.Select>
+  );
+}
+
 export default function ArticlesPage() {
   const [articles, setArticles] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState({ source: "" });
+  const [filters, setFilters] = useState({ source: "", category: "" });
   const [uniqueSources, setUniqueSources] = useState([]);
   const [difficultyRange, setDifficultyRange] = useState([1, 9]);
   const [lengthRange, setLengthRange] = useState([0, 2000]);
+  const [category, setCategory] = useState([]);
   
   const limit = 9;
 
@@ -50,6 +71,10 @@ export default function ArticlesPage() {
       url += `&source=${filters.source}`;
     }
 
+    if (filters.category) {
+      url += `&category=${filters.category}`;
+    }
+
     url += `&min_difficulty=${difficultyRange[0]}`;
     url += `&max_difficulty=${difficultyRange[1]}`;
     url += `&min_length=${lengthRange[0]}`;
@@ -59,9 +84,10 @@ export default function ArticlesPage() {
       .then(res => res.json())
       .then(data => {
         console.log(data);
-        setArticles(data.articles);
-        setTotal(data.total);
-        setUniqueSources(data.sources);
+        setArticles(data.articles || []);
+        setTotal(data.total || 0);
+        setUniqueSources(data.sources || []);
+        setCategory(data.categories || []);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -88,6 +114,10 @@ export default function ArticlesPage() {
             <Form.Group>
               <Form.Label>Source</Form.Label>
               <SourceSelect filters={filters} setFilters={setFilters} uniqueSources={uniqueSources} />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Category</Form.Label>
+              <CategorySelect filters={filters} setFilters={setFilters} category={category} />
             </Form.Group>
             <Form.Group>
               <Form.Label>Difficulty: HSK {difficultyRange[0]} - {difficultyRange[1]}</Form.Label>
