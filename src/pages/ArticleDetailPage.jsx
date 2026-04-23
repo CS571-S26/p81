@@ -16,7 +16,6 @@ export default function ArticleDetailPage() {
   const { id } = useParams();  
   const [article, setArticle] = useState(null);
   const [analysis, setAnalysis] = useState(null);
-  // const [sortedVocab, setSortedVocab] = useState([]);
   const [sortCol, setSortCol] = useState('frequency');
   const [sortDirection, setSortDirection] = useState('desc');
   const [minHSKLevel, setMinHSKLevel] = useState(4);
@@ -282,6 +281,9 @@ export default function ArticleDetailPage() {
         <Stack>
           <Badge pill bg="warning" text="dark">
             Scored HSK Level: {analysisData.difficulty_score}
+          </Badge>
+          <Badge pill bg="dark" text="Light">
+            Category: {article.category}
           </Badge>
         </Stack>
         <Form>
